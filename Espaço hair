@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#21151d">
+  <meta name="description" content="Agenda de salão de beleza para serviços de cabelo.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>Espaço Hair • Agenda</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Logo Espaço Hair">
+      <div><span class="eyebrow">AGENDA PROFISSIONAL</span><h1>Espaço Hair</h1></div>
+    </div>
+    <button id="installBtn" class="button ghost hidden">Instalar app</button>
+  </header>
+
+  <main class="shell">
+    <section class="welcome">
+      <div><p class="eyebrow">ORGANIZE SEU DIA</p><h2>Seu salão, no seu ritmo.</h2><p class="muted">Clientes, serviços e horários em um só lugar.</p></div>
+      <div class="today-card"><span>HOJE</span><strong id="todayLabel">—</strong><small id="todayCount">0 agendamentos</small></div>
+    </section>
+
+    <nav class="tabs" aria-label="Seções">
+      <button class="tab active" data-view="agenda">Agenda</button>
+      <button class="tab" data-view="clientes">Clientes</button>
+      <button class="tab" data-view="servicos">Serviços</button>
+      <button class="tab" data-view="config">Configurações</button>
+    </nav>
+
+    <section id="view-agenda" class="view">
+      <div class="section-heading"><div><p class="eyebrow">VISÃO GERAL</p><h2>Agendamentos</h2></div><button class="button primary" id="newAppointmentBtn">＋ Novo horário</button></div>
+      <div class="filters">
+        <label>Dia selecionado<input type="date" id="selectedDate"></label>
+        <label>Buscar cliente<input type="search" id="appointmentSearch" placeholder="Nome do cliente"></label>
+      </div>
+      <div class="agenda-layout">
+        <div class="panel">
+          <div class="panel-title"><h3>Horários do dia</h3><span id="dayCount" class="pill">0 horários</span></div>
+          <div id="dayAppointments" class="appointment-list"></div>
+        </div>
+        <div class="panel month-panel">
+          <div class="panel-title"><button class="icon-button" id="prevMonth" aria-label="Mês anterior">‹</button><h3 id="monthTitle">Mês</h3><button class="icon-button" id="nextMonth" aria-label="Próximo mês">›</button></div>
+          <div class="calendar-weekdays"><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span><span>DOM</span></div>
+          <div id="monthGrid" class="month-grid"></div>
+          <p class="hint">Toque em um dia para ver os horários. Os pontos indicam dias com agendamentos.</p>
+        </div>
+      </div>
+      <div class="panel reminders-panel">
+        <div class="panel-title"><div><h3>Lembretes próximos</h3><p class="muted small">Avisos programados para 2 horas antes</p></div><span class="pill gold">2 horas antes</span></div>
+        <div id="reminderList" class="reminder-list"></div>
+      </div>
+    </section>
+
+    <section id="view-clientes" class="view hidden">
+      <div class="section-heading"><div><p class="eyebrow">RELACIONAMENTO</p><h2>Clientes</h2></div></div>
+      <form id="clientForm" class="panel form-grid">
+        <h3 class="full">Cadastrar cliente</h3>
+        <label>Nome completo<input id="clientName" required maxlength="100" placeholder="Ex.: Maria da Silva"></label>
+        <label>Telefone<input id="clientPhone" required inputmode="tel" maxlength="25" placeholder="(11) 99999-9999"></label>
+        <div class="full form-actions"><button class="button primary" type="submit">Salvar cliente</button></div>
+      </form>
+      <div class="panel"><div class="panel-title"><h3>Clientes cadastrados</h3><span id="clientCount" class="pill">0 clientes</span></div><div id="clientList" class="record-list"></div></div>
+    </section>
+
+    <section id="view-servicos" class="view hidden">
+      <div class="section-heading"><div><p class="eyebrow">CATÁLOGO DO SALÃO</p><h2>Serviços e valores</h2></div></div>
+      <form id="serviceForm" class="panel form-grid">
+        <h3 class="full">Cadastrar serviço</h3>
+        <label>Nome do serviço<input id="serviceName" required maxlength="80" placeholder="Ex.: Escova"></label>
+        <label>Valor (R$)<input id="servicePrice" required type="number" min="0" step="0.01" placeholder="50,00"></label>
+        <label>Duração estimada<select id="serviceDuration"><option value="30">30 minutos</option><option value="45">45 minutos</option><option value="60" selected>1 hora</option><option value="90">1h30</option><option value="120">2 horas</option><option value="180">3 horas</option><option value="240">4 horas</option></select></label>
+        <div class="full form-actions"><button class="button primary" type="submit">Salvar serviço</button></div>
+      </form>
+      <div class="panel"><div class="panel-title"><h3>Serviços disponíveis</h3><span id="serviceCount" class="pill">0 serviços</span></div><div id="serviceList" class="record-list"></div></div>
+    </section>
+
+    <section id="view-config" class="view hidden">
+      <div class="section-heading"><div><p class="eyebrow">PREFERÊNCIAS</p><h2>Configurações</h2></div></div>
+      <div class="panel config-card">
+        <div class="config-icon">🔔</div><div class="config-copy"><h3>Lembretes no telefone</h3><p>Ative as notificações para receber avisos enquanto a agenda estiver aberta neste aparelho.</p><p class="hint">Importante: navegadores não garantem alarmes locais quando o app está totalmente fechado. Para notificações em segundo plano confiáveis, é necessário configurar push com um servidor.</p></div>
+        <button class="button secondary" id="enableNotifications">Ativar notificações</button>
+        <p id="notificationStatus" class="status full">Verificando permissão…</p>
+      </div>
+      <div class="panel config-card">
+        <div class="config-icon">📅</div><div class="config-copy"><h3>Google Agenda</h3><p>Conecte sua conta para criar eventos no Google Calendar junto com os agendamentos do salão.</p><p class="hint">Requer um Client ID do Google Cloud com a API Google Calendar ativada. Consulte o arquivo LEIA-ME incluído no pacote.</p></div>
+        <button class="button secondary" id="connectGoogle">Conectar Google</button>
+        <button class="button ghost" id="disconnectGoogle">Desconectar</button>
+        <p id="googleStatus" class="status full">Não conectado.</p>
+      </div>
+      <div class="panel">
+        <h3>Dados e privacidade</h3><p class="muted">Os dados deste protótipo ficam armazenados neste navegador. Faça exportações/backup e evite apagar os dados do site. Para usar em vários aparelhos, será necessário adicionar banco de dados e autenticação.</p>
+        <div class="form-actions"><button class="button secondary" id="exportData">Exportar backup JSON</button><button class="button danger" id="clearData">Apagar todos os dados</button></div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="appointmentDialog" class="modal">
+    <form id="appointmentForm" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">NOVO COMPROMISSO</p><h2 id="appointmentModalTitle">Agendar cliente</h2></div><button type="button" class="icon-button" id="closeModal" aria-label="Fechar">×</button></div>
+      <label>Cliente<select id="appointmentClient" required><option value="">Selecione um cliente</option></select></label>
+      <label>Serviço<select id="appointmentService" required><option value="">Selecione um serviço</option></select></label>
+      <div class="two-col"><label>Data<input id="appointmentDate" type="date" required></label><label>Horário<input id="appointmentTime" type="time" required step="300"></label></div>
+      <label>Observações (opcional)<textarea id="appointmentNotes" rows="2" placeholder="Preferências ou detalhes"></textarea></label>
+      <div class="price-preview"><span>Valor do serviço</span><strong id="appointmentPrice">R$ 0,00</strong></div>
+      <p class="hint">O lembrete será calculado para 2 horas antes do horário marcado.</p>
+      <div class="form-actions"><button type="button" class="button ghost" id="cancelModal">Cancelar</button><button type="submit" class="button primary">Salvar agendamento</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <footer><span>Espaço Hair</span><span>Agenda profissional • versão inicial</span></footer>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://apis.google.com/js/api.js" async defer></script>
+  <script src="app.js"></script>
+</body>
+</html>
