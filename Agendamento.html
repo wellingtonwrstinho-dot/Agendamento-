@@ -1,0 +1,895 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="pt-BR">
+
+
+<head>
+
+
+  <meta charset="UTF-8" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+  <title>Márcia Frontino - Agendamento</title>
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+
+  <style>
+
+
+    :root {
+
+
+      --primary: #9C7A5B;
+
+
+      --primary-light: #EFE8E1;
+
+
+      --dark: #2A2523;
+
+
+      --light: #FAF8F5;
+
+
+      --white: #FFFFFF;
+
+
+      --gray: #8A8580;
+
+
+      --border: #E5DEC9;
+
+
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+
+      --radius: 12px;
+
+
+    }
+
+
+    * {
+
+
+      box-sizing: border-box;
+
+
+      margin: 0;
+
+
+      padding: 0;
+
+
+    }
+
+
+    body {
+
+
+      font-family: 'Montserrat', sans-serif;
+
+
+      background-color: var(--light);
+
+
+      color: var(--dark);
+
+
+      display: flex;
+
+
+      justify-content: center;
+
+
+      min-height: 100vh;
+
+
+      padding: 20px 10px;
+
+
+    }
+
+
+    .container {
+
+
+      width: 100%;
+
+
+      max-width: 480px;
+
+
+      background: var(--white);
+
+
+      border-radius: var(--radius);
+
+
+      box-shadow: var(--shadow);
+
+
+      overflow: hidden;
+
+
+      display: flex;
+
+
+      flex-direction: column;
+
+
+    }
+
+
+    .header {
+
+
+      background-color: var(--primary-light);
+
+
+      padding: 32px 24px;
+
+
+      text-align: center;
+
+
+      border-bottom: 1px solid var(--border);
+
+
+    }
+
+
+    .header h1 {
+
+
+      font-family: 'Cormorant Garamond', serif;
+
+
+      font-size: 32px;
+
+
+      color: var(--dark);
+
+
+      letter-spacing: 1px;
+
+
+      text-transform: uppercase;
+
+
+      font-weight: 700;
+
+
+    }
+
+
+    .header p {
+
+
+      font-size: 13px;
+
+
+      color: var(--gray);
+
+
+      margin-top: 6px;
+
+
+      letter-spacing: 2px;
+
+
+      text-transform: uppercase;
+
+
+    }
+
+
+    .content {
+
+
+      padding: 24px;
+
+
+      flex: 1;
+
+
+    }
+
+
+    .section-title {
+
+
+      font-family: 'Cormorant Garamond', serif;
+
+
+      font-size: 20px;
+
+
+      font-weight: 600;
+
+
+      margin-bottom: 16px;
+
+
+      color: var(--dark);
+
+
+      border-bottom: 1px solid var(--primary-light);
+
+
+      padding-bottom: 6px;
+
+
+    }
+
+
+    .form-group {
+
+
+      margin-bottom: 20px;
+
+
+    }
+
+
+    label {
+
+
+      display: block;
+
+
+      font-size: 12px;
+
+
+      font-weight: 600;
+
+
+      text-transform: uppercase;
+
+
+      letter-spacing: 0.5px;
+
+
+      margin-bottom: 8px;
+
+
+      color: var(--dark);
+
+
+    }
+
+
+    input, select {
+
+
+      width: 100%;
+
+
+      padding: 12px 14px;
+
+
+      border: 1px solid var(--border);
+
+
+      border-radius: 8px;
+
+
+      font-family: 'Montserrat', sans-serif;
+
+
+      font-size: 14px;
+
+
+      color: var(--dark);
+
+
+      background-color: var(--light);
+
+
+      outline: none;
+
+
+      transition: all 0.2s ease;
+
+
+    }
+
+
+    input:focus, select:focus {
+
+
+      border-color: var(--primary);
+
+
+      background-color: var(--white);
+
+
+    }
+
+
+    .services-grid {
+
+
+      display: grid;
+
+
+      grid-template-columns: 1fr;
+
+
+      gap: 10px;
+
+
+    }
+
+
+    .service-card {
+
+
+      border: 1px solid var(--border);
+
+
+      border-radius: 8px;
+
+
+      padding: 12px 16px;
+
+
+      display: flex;
+
+
+      justify-content: space-between;
+
+
+      align-items: center;
+
+
+      cursor: pointer;
+
+
+      transition: all 0.2s ease;
+
+
+      background-color: var(--light);
+
+
+    }
+
+
+    .service-card:hover {
+
+
+      border-color: var(--primary);
+
+
+    }
+
+
+    .service-card.selected {
+
+
+      border-color: var(--primary);
+
+
+      background-color: var(--primary-light);
+
+
+    }
+
+
+    .service-info h4 {
+
+
+      font-size: 14px;
+
+
+      font-weight: 500;
+
+
+    }
+
+
+    .service-info span {
+
+
+      font-size: 12px;
+
+
+      color: var(--gray);
+
+
+    }
+
+
+    .service-price {
+
+
+      font-weight: 600;
+
+
+      font-size: 14px;
+
+
+      color: var(--primary);
+
+
+    }
+
+
+    .btn-submit {
+
+
+      width: 100%;
+
+
+      background-color: var(--primary);
+
+
+      color: var(--white);
+
+
+      border: none;
+
+
+      padding: 16px;
+
+
+      border-radius: 8px;
+
+
+      font-family: 'Montserrat', sans-serif;
+
+
+      font-size: 14px;
+
+
+      font-weight: 600;
+
+
+      text-transform: uppercase;
+
+
+      letter-spacing: 1px;
+
+
+      cursor: pointer;
+
+
+      transition: background 0.2s ease;
+
+
+      margin-top: 10px;
+
+
+    }
+
+
+    .btn-submit:hover {
+
+
+      background-color: #85664B;
+
+
+    }
+
+
+    .footer {
+
+
+      text-align: center;
+
+
+      padding: 16px;
+
+
+      font-size: 11px;
+
+
+      color: var(--gray);
+
+
+      border-top: 1px solid var(--primary-light);
+
+
+    }
+
+
+  </style>
+
+
+</head>
+
+
+<body>
+
+
+  <div class="container">
+
+
+    <div class="header">
+
+
+      <h1>Márcia Frontino</h1>
+
+
+      <p>Espaço de Beleza</p>
+
+
+    </div>
+
+
+    <div class="content">
+
+
+      <form id="bookingForm">
+
+
+       
+
+
+        <div class="section-title">1. Seus Dados</div>
+
+
+        <div class="form-group">
+
+
+          <label for="clientName">Nome Completo</label>
+
+
+          <input type="text" id="clientName" placeholder="Digite seu nome" required />
+
+
+        </div>
+
+
+        <div class="section-title">2. Selecione o Serviço</div>
+
+
+        <div class="form-group">
+
+
+          <div class="services-grid" id="servicesGrid">
+
+
+            <div class="service-card" onclick="selectService(this, 'Corte & Escova', 'R$ 120')">
+
+
+              <div class="service-info">
+
+
+                <h4>Corte & Escova</h4>
+
+
+                <span>60 min</span>
+
+
+              </div>
+
+
+              <div class="service-price">R$ 120</div>
+
+
+            </div>
+
+
+           
+
+
+            <div class="service-card" onclick="selectService(this, 'Mechas / Coloracao', 'R$ 280')">
+
+
+              <div class="service-info">
+
+
+                <h4>Mechas / Coloração</h4>
+
+
+                <span>180 min</span>
+
+
+              </div>
+
+
+              <div class="service-price">R$ 280</div>
+
+
+            </div>
+
+
+            <div class="service-card" onclick="selectService(this, 'Tratamento Capilar', 'R$ 150')">
+
+
+              <div class="service-info">
+
+
+                <h4>Tratamento Capilar</h4>
+
+
+                <span>45 min</span>
+
+
+              </div>
+
+
+              <div class="service-price">R$ 150</div>
+
+
+            </div>
+
+
+            <div class="service-card" onclick="selectService(this, 'Design de Sobrancelhas', 'R$ 60')">
+
+
+              <div class="service-info">
+
+
+                <h4>Design de Sobrancelhas</h4>
+
+
+                <span>30 min</span>
+
+
+              </div>
+
+
+              <div class="service-price">R$ 60</div>
+
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+        <div class="section-title">3. Data e Horário</div>
+
+
+        <div class="form-group">
+
+
+          <label for="bookingDate">Data</label>
+
+
+          <input type="date" id="bookingDate" required />
+
+
+        </div>
+
+
+        <div class="form-group">
+
+
+          <label for="bookingTime">Horário Disponível</label>
+
+
+          <select id="bookingTime" required>
+
+
+            <option value="">Selecione um horário</option>
+
+
+            <option value="09:00">09:00</option>
+
+
+            <option value="10:30">10:30</option>
+
+
+            <option value="13:00">13:00</option>
+
+
+            <option value="14:30">14:30</option>
+
+
+            <option value="16:00">16:00</option>
+
+
+            <option value="17:30">17:30</option>
+
+
+          </select>
+
+
+        </div>
+
+
+        <button type="button" class="btn-submit" onclick="submitBooking()">Solicitar Agendamento</button>
+
+
+      </form>
+
+
+    </div>
+
+
+    <div class="footer">
+
+
+      Atendimento Exclusivo • Márcia Frontino Studio
+
+
+    </div>
+
+
+  </div>
+
+
+  <script>
+
+
+    // Set your WhatsApp phone number here (Country Code + Area Code + Number)
+
+
+    const SALON_WHATSAPP = "5511999999999";
+
+
+    let selectedService = "";
+
+
+    let selectedPrice = "";
+
+
+    function selectService(element, serviceName, price) {
+
+
+      document.querySelectorAll('.service-card').forEach(card => {
+
+
+        card.classList.remove('selected');
+
+
+      });
+
+
+      element.classList.add('selected');
+
+
+      selectedService = serviceName;
+
+
+      selectedPrice = price;
+
+
+    }
+
+
+    function submitBooking() {
+
+
+      const name = document.getElementById('clientName').value.trim();
+
+
+      const date = document.getElementById('bookingDate').value;
+
+
+      const time = document.getElementById('bookingTime').value;
+
+
+      if (!name) {
+
+
+        alert('Por favor, informe seu nome.');
+
+
+        return;
+
+
+      }
+
+
+      if (!selectedService) {
+
+
+        alert('Por favor, selecione um serviço.');
+
+
+        return;
+
+
+      }
+
+
+      if (!date) {
+
+
+        alert('Por favor, escolha uma data.');
+
+
+        return;
+
+
+      }
+
+
+      if (!time) {
+
+
+        alert('Por favor, escolha um horário.');
+
+
+        return;
+
+
+      }
+
+
+      // Format Date to DD/MM/YYYY
+
+
+      const dateFormatted = date.split('-').reverse().join('/');
+
+
+      const message = `Olá! Gostaria de agendar um horário:\n\n` +
+
+
+                      `*Cliente:* ${name}\n` +
+
+
+                      `*Serviço:* ${selectedService} (${selectedPrice})\n` +
+
+
+                      `*Data:* ${dateFormatted}\n` +
+
+
+                      `*Horário:* ${time}\n\n` +
+
+
+                      `Aguardo confirmação!`;
+
+
+      const encodedMessage = encodeURIComponent(message);
+
+
+      const whatsappUrl = `https://wa.me/${SALON_WHATSAPP}?text=${encodedMessage}`;
+
+
+      window.open(whatsappUrl, '_blank');
+
+
+    }
+
+
+    // Set minimum date selector to today
+
+
+    const dateInput = document.getElementById('bookingDate');
+
+
+    if (dateInput) {
+
+
+      const today = new Date().toISOString().split('T')[0];
+
+
+      dateInput.min = today;
+
+
+    }
+
+
+  </script>
+
+
+</body>
+
+
+</html>
+
+<html>
+
+</html><html>
+
+</html><html>
+
+</html><html>
+
+</html>
